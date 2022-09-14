@@ -1,0 +1,80 @@
+import React, { Component } from "react";
+import Person from "./Components/Person";
+import "./App.css";
+
+class App extends Component {
+  state = {
+    persons: [
+      { name: "Saljesh", age: 21 },
+      { name: "Annika", age: 23 },
+      { name: "Saugat", age: 22 },
+    ],
+  };
+
+  switchNameHandler = (newName) => {
+    // form componet as we extended it
+    this.setState({
+      persons: [
+        { name: newName, age: 22 },
+        { name: "Aney", age: 21 },
+        { name: "Boka", age: 23 },
+      ],
+    });
+  };
+
+  nameChangeHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: "Max", age: 22 },
+        { name: event.target.value, age: 21 },
+        { name: "Boka", age: 23 },
+      ],
+    });
+  };
+
+  // css styles are now scoped to component
+  styles = {
+    backgroundColor: "Yellow",
+    font: "inherit",
+    border: "1px solid white",
+    cursor: "pointer",
+    padding: "5px 10px",
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <h1>HI, I'm a react app</h1>
+        <p>This is really working</p>
+        {/* <button onClick={this.switchNameHandler.bind(this, "Saljesh")}>
+          Switch Name
+        </button> */}
+        {/* this is another method to do if you wont use bind */}
+        <button
+          style={this.styles}
+          onClick={() => this.switchNameHandler("MAXY")}
+        >
+          SwitchName
+        </button>
+        <Person
+          name={this.state.persons[0].name}
+          age={this.state.persons[0].age}
+        />
+        <Person
+          name={this.state.persons[1].name}
+          age={this.state.persons[1].age}
+          changed={this.nameChangeHandler}
+        />
+        <Person
+          name={this.state.persons[2].name}
+          age={this.state.persons[2].age}
+          click={this.switchNameHandler.bind(this, "salju")}
+        >
+          I am children
+        </Person>
+      </div>
+    );
+  }
+}
+
+export default App;

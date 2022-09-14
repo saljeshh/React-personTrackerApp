@@ -1,0 +1,191 @@
+import Person from "./Components/Person";
+import { useState } from "react";
+import "./App.css";
+
+const App = () => {
+  const [personState, setPersonState] = useState({
+    persons: [
+      { name: "Aney", age: "21" },
+      { name: "Salju", age: "22" },
+    ],
+    otherState: "some other",
+  });
+  console.log(personState);
+
+  let [switchName, setSwitchName] = useState("Switch Names and Ages");
+  console.log(switchName);
+
+  const switchNameHandler = () => {
+    setPersonState({
+      persons: [
+        { name: "Kushal", age: "21" },
+        { name: "Saugat", age: "22" },
+      ],
+      otherState: personState.otherState, // because if no written in new state we wont see otherstate
+    });
+
+    setSwitchName("Swiched Successfully");
+  };
+
+  return (
+    <div className="App">
+      <button onClick={switchNameHandler}>{switchName}</button>
+      <Person
+        name={personState.persons[0].name}
+        age={personState.persons[0].age}
+      />
+      {/* I love saljesh is nothing but children */}
+      <Person
+        name={personState.persons[1].name}
+        age={personState.persons[1].age}
+      >
+        I love Saljesh
+      </Person>
+    </div>
+  );
+};
+
+export default App;
+
+// person.js
+
+
+const Person = (props) => {
+  //   return <p>Im a person {Math.floor(Math.random() * 30)} years old. </p>;
+  return (
+    <div>
+      <p>
+        Im {props.name} and I'm {props.age} years old
+      </p>
+      <p>{props.children}</p>
+    </div>
+  );
+};
+
+export default Person;
+
+
+
+
+-------------- v2.0 ----------------
+import Person from "./Components/Person";
+import { useState } from "react";
+import "./App.css";
+
+const App = () => {
+  const [personState, setPersonState] = useState({
+    persons: [
+      { name: "Aney", age: "21" },
+      { name: "Salju", age: "22" },
+    ],
+    otherState: "some other",
+  });
+  console.log(personState);
+
+  let [switchName, setSwitchName] = useState("Switch Names and Ages");
+  console.log(switchName);
+
+  const switchNameHandler = (newName) => {
+    setPersonState({
+      persons: [
+        { name: newName, age: "21" },
+        { name: "Saugat", age: "22" },
+      ],
+      otherState: personState.otherState, // because if no written in new state we wont see otherstate
+    });
+
+    setSwitchName("Swiched Successfully");
+  };
+
+  return (
+    <div className="App">
+      <button onClick={() => switchNameHandler("Kushal")}>{switchName}</button>
+      <Person
+        name={personState.persons[0].name}
+        age={personState.persons[0].age}
+        click={switchNameHandler}
+      />
+      {/* I love saljesh is nothing but children */}
+      <Person
+        name={personState.persons[1].name}
+        age={personState.persons[1].age}
+        click={switchNameHandler} //reference
+      >
+        I love Saljesh
+      </Person>
+    </div>
+  );
+};
+
+export default App;
+
+
+
+const Person = (props) => {
+  console.log(props.click);
+  //   return <p>Im a person {Math.floor(Math.random() * 30)} years old. </p>;
+  return (
+    <div>
+      <p onClick={() => props.click("saljesh")}>
+        Im {props.name} and I'm {props.age} years old
+      </p>
+      <p>{props.children}</p>
+    </div>
+  );
+};
+
+export default Person;
+
+
+
+
+------------v3
+
+import Person from "./Components/Person";
+import { useState } from "react";
+import "./index.css";
+
+const App = () => {
+  const [states, setState] = useState({
+    person: [{ name: "Aney", age: "22" }],
+    showPerson: true,
+    question: "Bebu are you Ready ??",
+  });
+
+  const showMemberHandler = () => {
+    const doesShow = states.showPerson;
+    setState({
+      person: [{ name: "Salju", age: "22" }],
+      showPerson: !doesShow,
+      question: "I Love You Aney , My SweetHeart ❤",
+    });
+  };
+
+  return (
+    <div className="align">
+      <button onClick={showMemberHandler}> {states.question} </button>
+      {states.showPerson ? (
+        <div>
+          <Person name={states.person[0].name} age={states.person[0].age} />
+          <Person>-source: Saljesh's Heart and Mind</Person>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+export default App;
+
+
+
+
+const Person = (props) => {
+  return (
+    <div>
+      <p>{props.name} will You Marry ME ?</p>
+      <h6>{props.children}</h6>
+    </div>
+  );
+};
+
+export default Person;
